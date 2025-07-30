@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Procesando - Variables de Sesión</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="../frontend/estilos.css">
 </head>
 <body>
     <div class="container">
@@ -45,10 +45,10 @@ echo $_SESSION['nombre'];
                 </pre>
             </div>
         <?php else: ?>
-            <p>No hay datos de sesión. <a href="formulario.html">Vuelve al formulario</a></p>
+            <p>No hay datos de sesión. <a href="../frontend/formulario.html">Vuelve al formulario</a></p>
         <?php endif; ?>
         <div style="text-align: center; margin-top: 30px;">
-            <a href="formulario.html" class="boton">Nuevo Registro</a>
+            <a href="../frontend/formulario.html" class="boton">Nuevo Registro</a>
             <a href="ver_sesion.php" class="boton">Ver Todas las Variables</a>
             <a href="destruir_sesion.php" class="boton boton-rojo">Destruir Sesión</a>
         </div>

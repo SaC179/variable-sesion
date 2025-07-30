@@ -1,154 +1,42 @@
-# Variables de Sesión en PHP - Ejemplo Educativo
+# PHP Session Management Project
 
-Este proyecto contiene ejemplos simples para aprender a usar **variables de sesión** en PHP.
+## Overview
+This project demonstrates how to manage user sessions in PHP. It includes a user registration form that allows users to submit their name, email, and age. The submitted data is stored in session variables, which can be viewed and destroyed as needed.
 
-## 📋 ¿Qué son las Variables de Sesión?
-
-Las variables de sesión permiten **guardar información del usuario** que se mantiene disponible mientras navega por diferentes páginas del sitio web. Esta información se almacena en el servidor y se identifica con un ID único de sesión.
-
-## 🗂️ Archivos del Proyecto
-
-| Archivo | Descripción |
-|---------|-------------|
-| `formulario.html` | Formulario HTML simple para capturar datos del usuario |
-| `procesar.php` | Procesa el formulario y guarda los datos en variables de sesión |
-| `ver_sesion.php` | Muestra todas las variables de sesión activas |
-| `destruir_sesion.php` | Elimina todas las variables de sesión |
-
-## 🚀 Cómo usar el proyecto
-
-### 1. Requisitos
-- XAMPP, WAMP o cualquier servidor con PHP
-- Navegador web
-
-### 2. Instalación
-1. Copia la carpeta `variables_sesion` a tu directorio web (ej: `htdocs` en XAMPP)
-2. Inicia tu servidor web
-3. Ve a: `http://localhost/variables_sesion/formulario.html`
-
-### 3. Flujo de uso
-1. **Llena el formulario** en `formulario.html`
-2. **Envía los datos** (se procesarán en `procesar.php`)
-3. **Ve las variables** guardadas en `ver_sesion.php`
-4. **Destruye la sesión** cuando termines con `destruir_sesion.php`
-
-## 💡 Conceptos Importantes
-
-### `session_start()`
-```php
-session_start(); // SIEMPRE debe ir al principio del archivo PHP
+## Project Structure
 ```
-- Inicia o reanuda una sesión existente
-- Debe llamarse antes de usar `$_SESSION`
-- Debe ir antes de cualquier salida HTML
-
-### `$_SESSION`
-```php
-$_SESSION['nombre'] = 'Juan';     // Guardar datos
-echo $_SESSION['nombre'];         // Mostrar datos
-unset($_SESSION['nombre']);       // Eliminar una variable
-```
-- Array superglobal para almacenar datos de sesión
-- Los datos persisten entre páginas
-- Solo están disponibles para el usuario actual
-
-### `session_destroy()`
-```php
-session_destroy(); // Elimina TODAS las variables de sesión
-```
-- Destruye completamente la sesión
-- Útil para "cerrar sesión"
-- Después de esto, `$_SESSION` estará vacío
-
-## 📖 Ejemplo Paso a Paso
-
-### 1. Formulario HTML (`formulario.html`)
-```html
-<form action="procesar.php" method="POST">
-    <input type="text" name="nombre" required>
-    <input type="email" name="email" required>
-    <input type="text" name="edad" required>
-    <button type="submit">Enviar</button>
-</form>
+php-session-project
+├── backend
+│   ├── destruir_sesion.php
+│   ├── procesar.php
+│   └── ver_sesion.php
+├── frontend
+│   ├── estilos.css
+│   └── formulario.html
+└── README.md
 ```
 
-### 2. Procesamiento PHP (`procesar.php`)
-```php
-<?php
-session_start(); // ¡Importante! Siempre primero
+## Files Description
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Guardar datos del formulario en la sesión
-    $_SESSION['nombre'] = $_POST['nombre'];
-    $_SESSION['email'] = $_POST['email'];
-    $_SESSION['edad'] = $_POST['edad'];
-    $_SESSION['fecha_registro'] = date('Y-m-d H:i:s');
-}
+### Backend
+- **destruir_sesion.php**: This file starts a session and destroys all session variables. It provides a confirmation message to the user that the session has been destroyed.
+  
+- **procesar.php**: This file starts a session and processes the data submitted from the registration form. It saves the user's name, email, age, and registration date into session variables. It also displays the saved information back to the user.
 
-// Mostrar los datos guardados
-echo "Hola " . $_SESSION['nombre'];
-?>
-```
+- **ver_sesion.php**: This file starts a session and checks for active session variables. If session variables exist, it displays them; otherwise, it informs the user that no session variables have been created yet.
 
-## 🔍 Funciones Útiles
+### Frontend
+- **estilos.css**: This file contains the CSS styles for the project, defining the layout, colors, and appearance of the HTML elements used in the frontend.
 
-| Función | Descripción | Ejemplo |
-|---------|-------------|---------|
-| `session_start()` | Inicia la sesión | `session_start();` |
-| `session_id()` | Obtiene el ID de sesión | `echo session_id();` |
-| `session_destroy()` | Destruye la sesión | `session_destroy();` |
-| `isset()` | Verifica si existe una variable | `if(isset($_SESSION['nombre']))` |
-| `unset()` | Elimina una variable específica | `unset($_SESSION['nombre']);` |
+- **formulario.html**: This file contains the HTML structure for the user registration form. It includes fields for the user's name, email, and age, and submits the data to `backend/procesar.php`.
 
-## ⚠️ Errores Comunes
+## Setup Instructions
+1. Clone or download the project files to your local machine.
+2. Ensure you have a local server environment set up (e.g., XAMPP, WAMP).
+3. Place the project folder in the server's root directory (e.g., `htdocs` for XAMPP).
+4. Access the project through your web browser by navigating to `http://localhost/php-session-project/frontend/formulario.html`.
 
-### ❌ Error: "Headers already sent"
-```php
-<html>  <!-- ¡MAL! HTML antes de session_start() -->
-<?php session_start(); ?>
-```
-
-### ✅ Forma correcta:
-```php
-<?php 
-session_start(); // ¡BIEN! session_start() primero
-?>
-<html>
-```
-
-### ❌ Olvidar session_start()
-```php
-$_SESSION['nombre'] = 'Juan'; // ¡Error! No hay session_start()
-```
-
-### ✅ Forma correcta:
-```php
-<?php
-session_start();              // ¡BIEN! Primero iniciar sesión
-$_SESSION['nombre'] = 'Juan';  // Ahora sí funciona
-?>
-```
-
-## 🎯 Ejercicios para Practicar
-
-1. **Básico**: Modifica el formulario para agregar un campo "ciudad"
-2. **Intermedio**: Crea un contador de visitas que se incremente cada vez que el usuario recarga la página
-3. **Avanzado**: Implementa un sistema de login simple con usuario y contraseña
-
-## 🔗 Enlaces Útiles
-
-- [Documentación oficial de PHP - Sesiones](https://www.php.net/manual/es/book.session.php)
-- [Tutorial W3Schools - PHP Sessions](https://www.w3schools.com/php/php_sessions.asp)
-
-## 👨‍🏫 Para el Profesor
-
-Este ejemplo está diseñado para:
-- Mostrar conceptos básicos de sesiones
-- Evitar complejidad innecesaria
-- Permitir experimentación segura
-- Facilitar la comprensión paso a paso
-
----
-**Autor**: Profesor [Tu Nombre]  
-**Curso**: Programación Web con PHP  
-**Fecha**: Julio 2025
+## Usage
+- Fill out the registration form and submit it to save the data in session variables.
+- You can view the saved session variables by navigating to `http://localhost/php-session-project/backend/ver_sesion.php`.
+- To destroy the session and clear the stored data, go to `http://localhost/php-session-project/backend/destruir_sesion.php`.

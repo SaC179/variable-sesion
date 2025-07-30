@@ -7,7 +7,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Variables de Sesión</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="../frontend/estilos.css">
 </head>
 <body>
     <div class="container">
@@ -33,7 +33,7 @@ session_start();
             </div>
         <?php endif; ?>
         <div style="text-align: center; margin-top: 30px;">
-            <a href="formulario.html" class="boton">Ir al Formulario</a>
+            <a href="../frontend/formulario.html" class="boton">Ir al Formulario</a>
             <a href="procesar.php" class="boton">Ver Procesador</a>
             <a href="destruir_sesion.php" class="boton boton-rojo">Destruir Sesión</a>
         </div>
