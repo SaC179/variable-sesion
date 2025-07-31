@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ver Variables de Sesión</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Variables de Sesión Activas</h1>
+        <div id="sesion"></div>
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="formulario.html" class="boton">Ir al Formulario</a>
+            <a href="procesado.html" class="boton">Ver Procesador</a>
+            <a href="sesion_destruida.html" class="boton boton-rojo">Destruir Sesión</a>
+        </div>
+    </div>
+    <script>
+        fetch('../backend/ver_sesion.php')
+            .then(res => res.json())
+            .then(data => {
+                if (Object.keys(data).length > 0) {
+                    let html = '<div class="sesion-info"><h2>Variables encontradas:</h2><ul>';
+                    for (const clave in data) {
+                        html += `<li><strong>${clave}:</strong> ${data[clave]}</li>`;
+                    }
+                    html += '</ul></div>';
+                    document.getElementById('sesion').innerHTML = html;
+                } else {
+                    document.getElementById('sesion').innerHTML = '<div class="no-sesion"><h2>No hay variables de sesión</h2></div>';
+                }
+            });
+    </script>
+</body>
+</html>

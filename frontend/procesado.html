@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>¡Datos Guardados en Sesión!</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div class="container">
+        <h1>¡Datos Guardados en Sesión!</h1>
+        <div id="datos"></div>
+        <div id="codigo"></div>
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="formulario.html" class="boton">Nuevo Registro</a>
+            <a href="ver_sesion.html" class="boton">Ver Todas las Variables</a>
+            <a href="sesion_destruida.html" class="boton boton-rojo">Destruir Sesión</a>
+        </div>
+        <div class="aprendizaje">
+            <h3>¿Qué aprendimos?</h3>
+            <ul>
+                <li><strong>session_start()</strong>: Inicia o reanuda una sesión</li>
+                <li><strong>$_SESSION</strong>: Array donde guardamos nuestros datos</li>
+                <li><strong>$_POST</strong>: Datos que vienen del formulario</li>
+                <li>Los datos de sesión persisten entre páginas</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        // Función para obtener el ID de sesión
+        function getSessionId() {
+            return fetch('../backend/ver_sesion.php', { credentials: 'include' })
+                .then(() => fetch('../backend/obtener_sesion.php', { credentials: 'include' }))
+                .then(res => res.text());
+        }
+
+        // Renderiza los datos como árbol
+        function renderTree(data) {
+            let html = '<ul>';
+            for (const key in data) {
+                html += `<li><strong>${key}:</strong> ${data[key]}</li>`;
+            }
+            html += '</ul>';
+            return html;
+        }
+
+        // Mostrar datos y código
+        fetch('../backend/ver_sesion.php')
+            .then(res => res.json())
+            .then(data => {
+                if (Object.keys(data).length > 0) {
+                    // Mostrar datos en árbol y el ID de sesión
+                    fetch('../backend/obtener_sesion.php')
+                        .then(res => res.text())
+                        .then(sessionId => {
+                            document.getElementById('datos').innerHTML = `
+                                <div class="datos">
+                                    <h2>Información guardada:</h2>
+                                    ${renderTree(data)}
+                                    <br>
+                                    <strong>ID de sesión:</strong> ${sessionId}
+                                </div>
+                            `;
+                        });
+                } else {
+                    document.getElementById('datos').innerHTML = '<p>No hay datos de sesión.</p>';
+                }
+            });
+
+        // Mostrar el código PHP utilizado
+        document.getElementById('codigo').innerHTML = `
+            <div class="codigo">
+                <strong>Código PHP utilizado:</strong><br><br>
+                // Iniciar sesión<br>
+                session_start();<br><br>
+                // Guardar datos en variables de sesión<br>
+                $_SESSION['nombre'] = $_POST['nombre'];<br>
+                $_SESSION['email'] = $_POST['email'];<br>
+                $_SESSION['edad'] = $_POST['edad'];<br><br>
+                // Mostrar datos<br>
+                echo $_SESSION['nombre'];
+            </div>
+        `;
+    </script>
+</body>
+</html>
