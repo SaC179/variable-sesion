@@ -26,14 +26,12 @@
         </div>
     </div>
     <script>
-        // Función para obtener el ID de sesión
         function getSessionId() {
             return fetch('../backend/ver_sesion.php', { credentials: 'include' })
                 .then(() => fetch('../backend/obtener_sesion.php', { credentials: 'include' }))
                 .then(res => res.text());
         }
 
-        // Renderiza los datos como árbol
         function renderTree(data) {
             let html = '<ul>';
             for (const key in data) {
@@ -43,12 +41,10 @@
             return html;
         }
 
-        // Mostrar datos y código
         fetch('../backend/ver_sesion.php')
             .then(res => res.json())
             .then(data => {
                 if (Object.keys(data).length > 0) {
-                    // Mostrar datos en árbol y el ID de sesión
                     fetch('../backend/obtener_sesion.php')
                         .then(res => res.text())
                         .then(sessionId => {
@@ -66,7 +62,6 @@
                 }
             });
 
-        // Mostrar el código PHP utilizado
         document.getElementById('codigo').innerHTML = `
             <div class="codigo">
                 <strong>Código PHP utilizado:</strong><br><br>
